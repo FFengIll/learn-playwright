@@ -25,7 +25,8 @@ def download_in_chromium(page: "Page", action, output=None):
         download.save_as(output)
 
 
-with sync_playwright() as p:
+def main():
+    p = sync_playwright().start()
     browser_type = p.chromium
     browser = browser_type.launch(headless=True)
     context = browser.new_context(accept_downloads=True)
@@ -53,3 +54,7 @@ with sync_playwright() as p:
         output.makedirs_p()
 
     download_in_chromium(page, action, output / "test.pdf")
+
+
+if __name__ == "__main__":
+    main()
