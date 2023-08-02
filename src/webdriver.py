@@ -12,6 +12,12 @@ from playwright.sync_api import (
 
 
 def disable_webdriver(page: Page):
+    """
+    it is different when using webdriver through playwright and so on,
+    the `window.navigator.webdriver` maybe set as `true` for runing webdriver.
+    so disable it will help to bypass some basic detection.
+    """
+
     js = """
         Object.defineProperties(navigator, {webdriver:{get:()=>undefine}});
         """
