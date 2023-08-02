@@ -1,5 +1,4 @@
 import time
-from threading import Event
 
 from playwright.sync_api import (
     Page,
@@ -10,18 +9,7 @@ from playwright.sync_api import (
     sync_playwright,
 )
 
-
-def disable_webdriver(page: Page):
-    """
-    it is different when using webdriver through playwright and so on,
-    the `window.navigator.webdriver` maybe set as `true` for runing webdriver.
-    so disable it will help to bypass some basic detection.
-    """
-
-    js = """
-        Object.defineProperties(navigator, {webdriver:{get:()=>undefine}});
-        """
-    page.add_init_script(js)
+from src import helper
 
 
 def add_header(page):
@@ -54,12 +42,11 @@ def run(playwright: Playwright) -> None:
     # add_header(page)
     # delete_header(page)
 
-    disable_webdriver(page=page)
+    helper.Anti.disable_webdriver(page=page)
 
     page.goto("")
 
-    # ---------------------
-    Event().wait()
+    helper.Control.hold()
 
     # ---------------------
 
